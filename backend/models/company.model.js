@@ -34,12 +34,6 @@ const CompanySchema = new mongoose.Schema(
 			ref: "User",
 			required: true,
 		},
-		transactions: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Transaction", // Reference to the Transaction model
-			},
-		],
 	},
 	{ timestamps: true }
 );
