@@ -9,8 +9,8 @@ const BankAccountSchema = new mongoose.Schema(
 		},
 		accountNumber: {
 			type: String,
+			default: "defaultAc",
 			required: true,
-			unique: true,
 		},
 		bankName: {
 			type: String,

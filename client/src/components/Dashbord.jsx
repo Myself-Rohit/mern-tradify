@@ -1,4 +1,5 @@
 import React from "react";
+import CompantList from "./CompantList";
 
 function Dashbord() {
 	return (
@@ -28,7 +29,9 @@ function Dashbord() {
 				/>
 			</div>
 			{/* companies list */}
-			<div className="main"></div>
+			<div className="main">
+				<CompantList />
+			</div>
 		</div>
 	);
 }

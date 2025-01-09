@@ -6,10 +6,16 @@ import authRoute from "./routes/auth.route.js";
 import companyRoute from "./routes/company.route.js";
 import cookieParser from "cookie-parser";
 const app = express();
-app.use(cors());
 dotenv.config();
-const PORT = process.env.PORT || 4000;
 app.use(cookieParser());
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+		credentials: true,
+	})
+);
+
+const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose

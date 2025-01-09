@@ -2,7 +2,8 @@ import Company from "../models/company.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const registerCompany = async (req, res, next) => {
-	const { name, symbol, stockPrice, availableShares, totalShares } = req.body;
+	const { name, symbol, stockPrice, availableShares, totalShares, logo } =
+		req.body;
 
 	if (!name || !symbol || !stockPrice || !availableShares || !totalShares) {
 		return next(errorHandler(400, "All fields are required"));
@@ -24,6 +25,7 @@ export const registerCompany = async (req, res, next) => {
 			availableShares,
 			totalShares,
 			createdBy: req.user.id,
+			logo,
 		});
 		if (newCompany) {
 			newCompany.populate("createdBy");

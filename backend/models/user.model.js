@@ -47,21 +47,9 @@ const UserSchema = new mongoose.Schema(
 				ref: "Transaction",
 			},
 		],
-		bankAccount: {
-			accountNumber: {
-				type: String,
-				unique: true,
-			},
-			bankName: {
-				type: String,
-			},
-			ifscCode: {
-				type: String,
-			},
-			balance: {
-				type: Number,
-				default: 0,
-			},
+		bank: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "BankAccount",
 		},
 		kycDetails: {
 			fullName: {

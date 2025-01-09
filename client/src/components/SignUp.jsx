@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
+import { useAuthContext } from "../context/authContext";
 
 function SignUp() {
 	const [formData, setFormData] = useState({});
-	const navigate = useNavigate();
+	const { setAuthUser } = useAuthContext();
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -16,7 +17,8 @@ function SignUp() {
 			});
 			if (res.ok) {
 				const data = await res.json();
-				return navigate("/login");
+				setAuthUser(data);
+				localStorage.setItem("loggedInUser", JSON.stringify(data));
 			} else {
 			}
 		} catch (error) {

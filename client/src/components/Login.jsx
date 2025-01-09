@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { useAuthContext } from "../context/authContext";
 
 function Login() {
 	const [formData, setFormData] = useState({});
-	const navigate = useNavigate();
+	const { setAuthUser } = useAuthContext();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const res = await fetch(`http://localhost:5000/api/auth/signin`, {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -17,8 +19,8 @@ function Login() {
 			});
 			if (res.ok) {
 				const data = await res.json();
-				localStorage.setItem("user", JSON.stringify(data));
-				return navigate("/");
+				setAuthUser(data);
+				localStorage.setItem("loggedInUser", JSON.stringify(data));
 			} else {
 			}
 		} catch (error) {
