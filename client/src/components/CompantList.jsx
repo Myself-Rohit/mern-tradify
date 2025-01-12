@@ -15,7 +15,7 @@ const CompantList = () => {
 				</div>
 			) : (
 				companies.length && (
-					<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-9">
+					<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-9 md:w-2/3 mx-auto">
 						{companies.map((company) => {
 							return <Company key={company._id} company={company} />;
 						})}

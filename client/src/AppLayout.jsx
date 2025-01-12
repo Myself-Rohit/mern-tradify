@@ -6,9 +6,12 @@ import { Outlet } from "react-router";
 
 function AppLayout() {
 	return (
-		<div className="bg-[#31353f] text-white flex justify-between min-h-screen text-Tahoma">
+		<div className="bg-[#31353f] text-white min-h-screen text-Tahoma">
 			<LeftSidebar />
-			<Outlet />
+			<div className="px-11 sm:px-24">
+				<Outlet />
+			</div>
+
 			<RightSidebar />
 		</div>
 	);
