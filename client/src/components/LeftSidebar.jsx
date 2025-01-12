@@ -41,7 +41,7 @@ function LeftSidebar() {
 					</span>
 				</Link>
 				<Link
-					to={"/"}
+					to={"/profile"}
 					onClick={() => setOpenSidebar(false)}
 					className="hover:bg-blue-500 rounded-md p-2 flex items-center justify-center gap-5"
 				>

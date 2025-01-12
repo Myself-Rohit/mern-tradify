@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		profilePic: {
+			type: String,
+			required: true,
+			default:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToiRnzzyrDtkmRzlAvPPbh77E-Mvsk3brlxQ&s",
+		},
 		isAdmin: {
 			type: Boolean,
 			default: false, // False for regular users, true for admins

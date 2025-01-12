@@ -6,17 +6,21 @@ import AppLayout from "./AppLayout";
 import { useAuthContext } from "./context/authContext";
 import Dashbord from "./components/Dashbord";
 import CompanyDetail from "./components/CompanyDetail";
+import Profile from "./Pages/Profile";
 
 function App() {
 	const { authUser } = useAuthContext();
 	return (
 		<>
 			<Routes>
-				<Route path="/" element={<AppLayout />}>
+				<Route
+					path="/"
+					element={authUser ? <AppLayout /> : <Navigate to="/login" />}
+				>
 					<Route path="/" element={<Dashbord />} />
+					<Route path="/profile" element={<Profile />} />
 					<Route path=":id" element={<CompanyDetail />} />
 				</Route>
-				<Route path="/" element={authUser ? <Dashbord /> : <Login />} />
 				<Route
 					path="/login"
 					element={authUser ? <Navigate to="/" /> : <Login />}
