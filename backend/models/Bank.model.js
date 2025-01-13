@@ -11,6 +11,7 @@ const BankAccountSchema = new mongoose.Schema(
 			type: String,
 			default: "defaultAc",
 			required: true,
+			unique: true,
 		},
 		bankName: {
 			type: String,
@@ -22,7 +23,7 @@ const BankAccountSchema = new mongoose.Schema(
 		},
 		balance: {
 			type: Number,
-			default: 0,
+			default: 500,
 		},
 	},
 	{ timestamps: true }

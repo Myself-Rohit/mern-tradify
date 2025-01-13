@@ -7,7 +7,7 @@ const useGetCompanies = () => {
 		const getCompanies = async () => {
 			try {
 				setLoading(true);
-				const res = await fetch("http://localhost:5000/api/company/all", {
+				const res = await fetch("/api/company/all", {
 					method: "GET",
 					credentials: "include",
 				});

@@ -30,7 +30,7 @@ function RightSidebar() {
 			/>
 			<div className="flex flex-col gap-2 h-5/6">
 				<Link
-					to={"/"}
+					to={"/stocks"}
 					onClick={() => setOpenSidebar(false)}
 					className="hover:bg-blue-500 rounded-md p-2 flex items-center justify-center gap-5"
 				>
@@ -38,7 +38,7 @@ function RightSidebar() {
 					<span className={`w-[50%] ${!openSidebar && "hidden"}`}>Stocks</span>
 				</Link>
 				<Link
-					to={"/"}
+					to={"/trading"}
 					onClick={() => setOpenSidebar(false)}
 					className="hover:bg-blue-500 rounded-md p-2 flex items-center justify-center gap-5"
 				>

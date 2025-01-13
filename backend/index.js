@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoute from "./routes/auth.route.js";
 import companyRoute from "./routes/company.route.js";
+import bankRoute from "./routes/bank.route.js";
 import cookieParser from "cookie-parser";
 const app = express();
 dotenv.config();
@@ -25,6 +26,7 @@ mongoose
 
 app.use("/api/auth", authRoute);
 app.use("/api/company", companyRoute);
+app.use("/api/bank", bankRoute);
 app.listen(PORT, () => {
 	console.log(`app running at port ${PORT}`);
 });
