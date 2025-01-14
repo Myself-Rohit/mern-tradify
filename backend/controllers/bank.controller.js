@@ -11,8 +11,11 @@ export const createAccount = async (req, res, next) => {
 		if (userId != req.user._id) {
 			return next(errorHandler(400, "Unauthorized User"));
 		}
+		const AccountExist = await BankAccount.findOne({ userId });
+		if (AccountExist) {
+			return next(errorHandler(400, "Already have account"));
+		}
 		let ifscCode = "";
-		console.log("00000");
 		switch (bankName) {
 			case "SBI":
 				ifscCode = "SBIN0001234";
@@ -28,7 +31,7 @@ export const createAccount = async (req, res, next) => {
 			accountNumber: -1,
 		});
 		const accountNumber = lastAccount
-			? lastAccount.accountNumber + 1
+			? Number(lastAccount.accountNumber) + 1
 			: 100000000001;
 
 		const newAccount = await BankAccount.create({

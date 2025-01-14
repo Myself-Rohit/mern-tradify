@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import useBankAccount from "../zustand/useBankAccount.js";
 
 const useBankDetails = () => {
 	const [loading, setLoading] = useState(false);
-	useEffect(() => {
-		const bankDetails = async () => {
-			setLoading(true);
-			try {
-				const res = await fetch("/api/bank/getAccountDetail");
-				const data = await res.json();
-				if (data.success) {
-					setAccountDetails(data);
-				}
-			} catch (error) {
-				toast.error(error.message);
-			} finally {
-				setLoading(false);
+	const { setAccountDetails } = useBankAccount();
+
+	const bankDetails = async () => {
+		setLoading(true);
+		try {
+			const res = await fetch("/api/bank/getAccountDetail");
+			const data = await res.json();
+			console.log(res);
+			console.log("data:>>:", data);
+			if (!res.ok) {
+				throw new Error(data);
 			}
-		};
-		bankDetails();
-	}, []);
-	return { loading };
+			setAccountDetails(data);
+		} catch (error) {
+			setAccountDetails(null);
+			toast.error("create Your bank Account");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return { loading, bankDetails };
 };
 export default useBankDetails;

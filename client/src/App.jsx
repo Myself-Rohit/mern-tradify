@@ -15,6 +15,7 @@ import StockVisualizationPage from "./Pages/StockVisualization";
 import WalletPage from "./Pages/Wallet";
 import CompanyStockVisualization from "./Pages/CompanyStocks";
 import SettingsPage from "./Pages/Settings";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -46,6 +47,7 @@ function App() {
 					element={authUser ? <Navigate to="/" /> : <SignUp />}
 				/>
 			</Routes>
+			<Toaster />
 		</>
 	);
 }
