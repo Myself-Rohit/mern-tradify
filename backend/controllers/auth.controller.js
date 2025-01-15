@@ -52,3 +52,12 @@ export const signin = async (req, res, next) => {
 		next(error);
 	}
 };
+
+export const signout = (req, res, next) => {
+	try {
+		res.cookie("token", "", { maxAge: 0 });
+		res.status(200).json({ message: "Logged out successfully" });
+	} catch (error) {
+		next(errorHandler(500, "Internal server error"));
+	}
+};

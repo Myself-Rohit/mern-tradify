@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "../context/authContext";
+import toast from "react-hot-toast";
 
 function Login() {
 	const [formData, setFormData] = useState({});
@@ -9,7 +10,7 @@ function Login() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const res = await fetch(`http://localhost:5000/api/auth/signin`, {
+			const res = await fetch(`/api/auth/signin`, {
 				method: "POST",
 				credentials: "include",
 				headers: {
@@ -17,14 +18,15 @@ function Login() {
 				},
 				body: JSON.stringify(formData),
 			});
-			if (res.ok) {
-				const data = await res.json();
-				setAuthUser(data);
-				localStorage.setItem("loggedInUser", JSON.stringify(data));
-			} else {
+			const data = await res.json();
+			if (!res.ok) {
+				throw new Error(data);
 			}
+			setAuthUser(data);
+			localStorage.setItem("loggedInUser", JSON.stringify(data));
+			toast.success("Logged In successfully");
 		} catch (error) {
-			console.log("errr", error);
+			console.log("errr", JSON.stringify(error));
 		}
 	};
 	return (

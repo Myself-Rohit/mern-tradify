@@ -9,11 +9,28 @@ import aboutus from "../assets/images/aboutus.svg";
 import settings from "../assets/images/settings.svg";
 import logout from "../assets/images/logout.svg";
 import { Link } from "react-router";
+import { useAuthContext } from "../context/authContext";
+import toast from "react-hot-toast";
 
 function LeftSidebar() {
 	const [openSidebar, setOpenSidebar] = useState(false);
+	const { setAuthUser } = useAuthContext();
 	const handleSidebar = () => {
 		setOpenSidebar(!openSidebar);
+	};
+
+	const handleLogout = async () => {
+		try {
+			const res = await fetch(`/api/auth/signout`);
+			if (res.ok) {
+				const data = await res.json();
+				toast.success(data.message);
+				setAuthUser(null);
+				localStorage.removeItem("loggedInUser");
+			}
+		} catch (error) {
+			console.log("errr", error);
+		}
 	};
 	return (
 		<div
@@ -88,8 +105,7 @@ function LeftSidebar() {
 					</span>
 				</Link>
 				<Link
-					to={"/"}
-					onClick={() => setOpenSidebar(false)}
+					onClick={handleLogout}
 					className="hover:bg-blue-500 rounded-md p-2 flex items-center justify-center gap-5"
 				>
 					<img className="min-w-5 w-7" src={logout} />
