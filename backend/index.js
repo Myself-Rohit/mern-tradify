@@ -5,16 +5,12 @@ import cors from "cors";
 import authRoute from "./routes/auth.route.js";
 import companyRoute from "./routes/company.route.js";
 import bankRoute from "./routes/bank.route.js";
+import transactionRoute from "./routes/transaction.route.js";
 import cookieParser from "cookie-parser";
 const app = express();
 dotenv.config();
 app.use(cookieParser());
-app.use(
-	cors({
-		origin: "http://localhost:5173",
-		credentials: true,
-	})
-);
+app.use(cors());
 
 const PORT = process.env.PORT || 4000;
 app.use(express.json());
@@ -27,6 +23,7 @@ mongoose
 app.use("/api/auth", authRoute);
 app.use("/api/company", companyRoute);
 app.use("/api/bank", bankRoute);
+app.use("/api/transaction", transactionRoute);
 app.listen(PORT, () => {
 	console.log(`app running at port ${PORT}`);
 });

@@ -7,6 +7,6 @@ import {
 
 const router = express.Router();
 
-router.get("/transaction/:userId", verifyToken, RecentTransaction);
-router.get("/transaction/:userId", verifyToken, createTransaction);
+router.get("/recent", verifyToken, RecentTransaction);
+router.post("/create", verifyToken, createTransaction);
 export default router;
