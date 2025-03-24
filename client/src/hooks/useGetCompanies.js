@@ -25,7 +25,7 @@ const useGetCompanies = () => {
 		getCompanies();
 	}, []);
 
-	return { loading, companies, setCompanies };
+	return { loading, companies };
 };
 
 export default useGetCompanies;

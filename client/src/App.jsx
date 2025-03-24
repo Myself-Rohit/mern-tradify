@@ -16,6 +16,7 @@ import WalletPage from "./Pages/Wallet";
 import CompanyStockVisualization from "./Pages/CompanyStocks";
 import SettingsPage from "./Pages/Settings";
 import { Toaster } from "react-hot-toast";
+import Transaction from "./Pages/Transaction";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -37,6 +38,7 @@ function App() {
 					<Route path="/stock" element={<StockVisualizationPage />} />
 					<Route path="/companystock" element={<CompanyStockVisualization />} />
 					<Route path="/settings" element={<SettingsPage />} />
+					<Route path="/:type/:companyId" element={<Transaction />} />
 				</Route>
 				<Route
 					path="/login"

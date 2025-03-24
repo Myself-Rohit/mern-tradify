@@ -8,7 +8,6 @@ const useGetTransaction = () => {
 		try {
 			const res = await axios.get(`/api/transaction/recent`);
 			if (res.data) {
-				console.log("res>>>", res.data);
 				setData(res.data);
 			}
 		} catch (error) {
