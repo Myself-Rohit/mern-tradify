@@ -64,26 +64,34 @@ export const getCompany = async (req, res, next) => {
 
 export const updateStockPrice = async (req, res, next) => {
 	try {
-		const { companyId, transactionType, shares } = req.query;
-		if (!companyId || !transactionType || !shares) {
+		const { companyId, type, shares } = req.body;
+		if (!companyId || !type || !shares) {
 			return next(errorHandler(404, "Not found"));
 		}
 		const company = await Company.findById(companyId);
 		// Define price impact factor
 		const impactFactor = 0.001; // Adjust this for stronger or weaker impact
 
-		if (transactionType === "buy") {
+		let currStockPrice = company.stockPrice[company.stockPrice.length - 1];
+
+		if (type === "buy") {
 			company.availableShares -= shares;
-			company.stockPrice += shares * impactFactor; // Price increases with buys
-		} else if (transactionType === "sell") {
-			company.availableShares -= shares;
-			company.stockPrice -= shares * impactFactor; // Price decreases with sells
+			currStockPrice += shares * impactFactor;
+			company.stockPrice.push(currStockPrice);
+		} else if (type === "sell") {
+			company.availableShares += shares;
+			currStockPrice -= shares * impactFactor;
+			company.stockPrice.push(currStockPrice);
 		}
 
-		company.stockPrice = Math.max(1, company.stockPrice); // Ensure price doesn't go below 1
+		company.stockPrice[company.stockPrice.length - 1] = Math.max(
+			1,
+			company.stockPrice[company.stockPrice.length - 1]
+		); // Ensure price doesn't go below 1
+		company.stockPrice[company.stockPrice.length - 1].toFixed(4);
 		await company.save();
-		return res.status(200).json(company);
+		next();
 	} catch (error) {
-		next(errorHandler(500, "Internal server error"));
+		next(errorHandler(500, error.message || "Something Went wrong!"));
 	}
 };

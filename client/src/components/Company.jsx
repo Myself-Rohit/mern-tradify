@@ -10,7 +10,9 @@ function Company({ company }) {
 			<img className="aspect-square" src={company.logo} />
 			<div className="flex items-center justify-between p-2 text-xs sm:text-base">
 				<p>{company.name}</p>
-				<span>${company.stockPrice}</span>
+				<span>
+					${company.stockPrice[company?.stockPrice.length - 1].toFixed(2)}
+				</span>
 			</div>
 		</Link>
 	);

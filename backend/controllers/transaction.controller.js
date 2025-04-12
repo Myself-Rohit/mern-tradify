@@ -7,7 +7,8 @@ export const RecentTransaction = async (req, res, next) => {
 		const userId = req.user._id;
 		const transaction = await Transaction.find({ userId })
 			.populate("companyId")
-			.sort({ createdAt: -1 });
+			.sort({ createdAt: -1 })
+			.limit(5);
 		res.status(200).send(transaction);
 	} catch (error) {
 		next(errorHandler(400, error?.message));
@@ -17,7 +18,6 @@ export const createTransaction = async (req, res, next) => {
 	try {
 		const userId = req.user._id;
 		const { type, companyId, shares } = req.body;
-		console.log(req.body);
 		if (!type || !companyId || !shares) {
 			return next(errorHandler(400, "All fields are required"));
 		}
@@ -25,13 +25,14 @@ export const createTransaction = async (req, res, next) => {
 		if (!company) {
 			throw new Error("Company not found!");
 		}
-		const totalAmount = shares * company.stockPrice;
+		const totalAmount =
+			shares * company.stockPrice[company.stockPrice.length - 1];
 		const transaction = new Transaction({
 			userId,
 			type,
 			companyId,
 			shares,
-			pricePerShare: company.stockPrice,
+			pricePerShare: company.stockPrice[company.stockPrice.length - 1],
 			totalAmount,
 		});
 		await transaction.save();

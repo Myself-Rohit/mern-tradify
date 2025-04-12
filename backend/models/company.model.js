@@ -21,7 +21,7 @@ const CompanySchema = new mongoose.Schema(
 			uppercase: true, // Stock ticker symbol (e.g., AAPL, MSFT)
 		},
 		stockPrice: {
-			type: Number,
+			type: [Number],
 			required: true,
 			min: 0, // Ensures stock price cannot be negative
 		},
