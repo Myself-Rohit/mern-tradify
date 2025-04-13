@@ -25,14 +25,13 @@ export const createTransaction = async (req, res, next) => {
 		if (!company) {
 			throw new Error("Company not found!");
 		}
-		const totalAmount =
-			shares * company.stockPrice[company.stockPrice.length - 1];
+		const totalAmount = shares * company.currentPrice;
 		const transaction = new Transaction({
 			userId,
 			type,
 			companyId,
 			shares,
-			pricePerShare: company.stockPrice[company.stockPrice.length - 1],
+			pricePerShare: company.currentPrice,
 			totalAmount,
 		});
 		await transaction.save();

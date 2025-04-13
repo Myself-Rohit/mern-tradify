@@ -15,6 +15,7 @@ const useGetCompanies = () => {
 				if (data.error) {
 					throw new Error(data.error);
 				}
+				console.log("ddd", data);
 				setCompanies(data);
 			} catch (error) {
 				toast.error(error.message);

@@ -95,11 +95,7 @@ const CompanyDetails = () => {
 					<div className="flex justify-between items-center">
 						<span className="text-lg">Stock Price:</span>
 						<span className="text-xl font-bold text-green-400">
-							$
-							{company.stockPrice &&
-								company?.stockPrice[company?.stockPrice?.length - 1]?.toFixed(
-									2
-								)}
+							${company?.currentPrice}
 						</span>
 					</div>
 					<div className="flex justify-between items-center">

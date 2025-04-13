@@ -20,10 +20,23 @@ const CompanySchema = new mongoose.Schema(
 			unique: true,
 			uppercase: true, // Stock ticker symbol (e.g., AAPL, MSFT)
 		},
-		stockPrice: {
-			type: [Number],
+		stocks: [
+			{
+				price: {
+					type: Number,
+					required: true,
+				},
+				time: {
+					type: Date,
+					required: true,
+				},
+			},
+		],
+		currentPrice: {
+			type: Number,
 			required: true,
-			min: 0, // Ensures stock price cannot be negative
+
+			default: 20,
 		},
 		availableShares: {
 			type: Number,

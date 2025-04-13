@@ -21,7 +21,8 @@ export const registerCompany = async (req, res, next) => {
 		const newCompany = await Company.create({
 			name,
 			symbol,
-			stockPrice,
+			currentPrice: stockPrice,
+			stocks: [{ price: stockPrice, time: Date.now() }],
 			availableShares,
 			totalShares,
 			createdBy: req.user.id,
@@ -72,23 +73,20 @@ export const updateStockPrice = async (req, res, next) => {
 		// Define price impact factor
 		const impactFactor = 0.001; // Adjust this for stronger or weaker impact
 
-		let currStockPrice = company.stockPrice[company.stockPrice.length - 1];
+		let currStockPrice = company?.currentPrice;
 
 		if (type === "buy") {
 			company.availableShares -= shares;
 			currStockPrice += shares * impactFactor;
-			company.stockPrice.push(currStockPrice);
 		} else if (type === "sell") {
 			company.availableShares += shares;
 			currStockPrice -= shares * impactFactor;
-			company.stockPrice.push(currStockPrice);
 		}
 
-		company.stockPrice[company.stockPrice.length - 1] = Math.max(
-			1,
-			company.stockPrice[company.stockPrice.length - 1]
-		); // Ensure price doesn't go below 1
-		company.stockPrice[company.stockPrice.length - 1].toFixed(4);
+		company.stocks.push({ price: currStockPrice, time: Date.now() });
+
+		company.currentPrice =
+			company.stocks[company.stocks.length - 1].price.toFixed(4);
 		await company.save();
 		next();
 	} catch (error) {
