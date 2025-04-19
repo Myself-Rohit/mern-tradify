@@ -16,7 +16,6 @@ const useGetCompanyById = (id) => {
 					throw new Error(data.error);
 				}
 				setCompany(data);
-				console.log(data);
 			} catch (error) {
 				toast.error(error.message);
 			} finally {

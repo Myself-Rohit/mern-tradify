@@ -11,6 +11,7 @@ import {
 	Legend,
 } from "chart.js";
 import useGetCompanies from "../hooks/useGetCompanies";
+import useGetCompanyById from "../hooks/useGetCompanyById";
 
 ChartJS.register(
 	CategoryScale,
@@ -24,6 +25,7 @@ ChartJS.register(
 
 const Trading = () => {
 	const { companies } = useGetCompanies();
+	const [selected, setSelected] = useState();
 	const months = [
 		"Jan",
 		"Feb",
@@ -50,16 +52,9 @@ const Trading = () => {
 		datasets: [
 			{
 				label: "Google",
-				data: [30, 35, 40, 39, 50, 55], // Stock prices
+				data: [30, 35, 40, 39, 50, 55],
 				borderColor: "rgba(75, 192, 192, 1)",
 				backgroundColor: "rgba(75, 192, 192, 0.2)",
-				fill: true,
-			},
-			{
-				label: "Apple",
-				data: [20, 25, 30, 35, 40, 45],
-				borderColor: "rgba(255, 99, 132, 1)",
-				backgroundColor: "rgba(255, 99, 132, 0.2)",
 				fill: true,
 			},
 		],

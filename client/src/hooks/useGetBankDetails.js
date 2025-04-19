@@ -11,8 +11,6 @@ const useBankDetails = () => {
 		try {
 			const res = await fetch("/api/bank/getAccountDetail");
 			const data = await res.json();
-			console.log(res);
-			console.log("data:>>:", data);
 			if (!res.ok) {
 				throw new Error(data);
 			}

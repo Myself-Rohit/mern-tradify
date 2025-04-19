@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useGetCompanyById from "../hooks/useGetCompanyById.js";
 import {
 	Chart as ChartJS,
@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useParams } from "react-router";
+import moment from "moment";
 
 // Register Chart.js components
 ChartJS.register(
@@ -27,18 +28,32 @@ ChartJS.register(
 const CompanyDetails = () => {
 	const { id } = useParams();
 	const { loading, company } = useGetCompanyById(id);
-	// Example stock price trend data
+	const [price, setPrice] = useState([]);
+	const [time, setTime] = useState([]);
+	if (!company) {
+		return;
+	}
+	useEffect(() => {
+		if (company?.stocks?.length) {
+			company?.stocks?.map((i) => setPrice((pre) => [...pre, i.price]));
+			company?.stocks?.map((i) => {
+				const t = new Date(i.time).toISOString();
+				setTime((pre) => [...pre, moment(t).format("hh:mm")]);
+			});
+		}
+	}, [company]);
+
 	const stockPriceData = {
-		labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"], // X-axis labels
+		labels: time,
 		datasets: [
 			{
 				label: "Stock Price ($)",
-				data: [120, 125, 130, 128, 135, 140, 145], // Y-axis values
+				data: price,
 				borderColor: "rgba(75, 192, 192, 1)",
 				backgroundColor: "rgba(75, 192, 192, 0.2)",
 				borderWidth: 2,
 				pointRadius: 3,
-				tension: 0.3, // Smooth line
+				tension: 0.3,
 			},
 		],
 	};
@@ -73,9 +88,7 @@ const CompanyDetails = () => {
 			},
 		},
 	};
-	if (!company) {
-		return;
-	}
+
 	return (
 		<div className="min-h-screen bg-gray-900 text-gray-200 p-8">
 			<h1 className="text-3xl font-bold mb-6">Stock Visualization</h1>
