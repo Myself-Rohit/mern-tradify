@@ -10,8 +10,9 @@ import {
 	Tooltip,
 	Legend,
 } from "chart.js";
-import useGetCompanies from "../hooks/useGetCompanies";
-import useGetCompanyById from "../hooks/useGetCompanyById";
+import useGetCompanies from "../hooks/useGetCompanies.js";
+import useGetCompanyById from "../hooks/useGetCompanyById.js";
+import useStockChart from "../hooks/useStockChart.js";
 
 ChartJS.register(
 	CategoryScale,
@@ -25,53 +26,58 @@ ChartJS.register(
 
 const Trading = () => {
 	const { companies } = useGetCompanies();
-	const [selected, setSelected] = useState();
-	const months = [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"July",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec",
-	];
-	const [label, setLabel] = useState(months);
+	const [data, setData] = useState([]);
+	const [options, setOptions] = useState([]);
+	const { stockChart } = useStockChart();
+	// const months = [
+	// 	"Jan",
+	// 	"Feb",
+	// 	"Mar",
+	// 	"Apr",
+	// 	"May",
+	// 	"Jun",
+	// 	"July",
+	// 	"Aug",
+	// 	"Sep",
+	// 	"Oct",
+	// 	"Nov",
+	// 	"Dec",
+	// ];
 
-	const day = [];
-	const Year = [2025];
+	// const day = [];
+	// const Year = [2025];
 
-	const handleLabel = (e) => {};
-
-	const data = {
-		labels: label,
-		datasets: [
-			{
-				label: "Google",
-				data: [30, 35, 40, 39, 50, 55],
-				borderColor: "rgba(75, 192, 192, 1)",
-				backgroundColor: "rgba(75, 192, 192, 0.2)",
-				fill: true,
-			},
-		],
+	const handleStock = (company) => {
+		const { data, options } = stockChart(company);
+		setData(data);
+		setOptions(options);
 	};
 
-	const options = {
-		responsive: true,
-		plugins: {
-			legend: {
-				position: "top",
-			},
-			title: {
-				display: true,
-				text: "Stock Price Trends",
-			},
-		},
-	};
+	// const data = {
+	// 	labels: label,
+	// 	datasets: [
+	// 		{
+	// 			label: "Google",
+	// 			data: [30, 35, 40, 39, 50, 55],
+	// 			borderColor: "rgba(75, 192, 192, 1)",
+	// 			backgroundColor: "rgba(75, 192, 192, 0.2)",
+	// 			fill: true,
+	// 		},
+	// 	],
+	// };
+
+	// const options = {
+	// 	responsive: true,
+	// 	plugins: {
+	// 		legend: {
+	// 			position: "top",
+	// 		},
+	// 		title: {
+	// 			display: true,
+	// 			text: "Stock Price Trends",
+	// 		},
+	// 	},
+	// };
 
 	return (
 		<div className="flex flex-col bg-gray-900 text-gray-200 min-h-screen">
@@ -81,7 +87,9 @@ const Trading = () => {
 			<main className="p-6">
 				<div className="bg-gray-800 p-6 rounded-lg mb-8">
 					<h2 className="text-lg font-semibold mb-4">Stock Trends</h2>
-					<Line data={data} options={options} className="w-full h-64" />
+					{data && options && (
+						<Line data={data} options={options} className="w-full h-64" />
+					)}
 				</div>
 
 				<div>
@@ -93,10 +101,11 @@ const Trading = () => {
 						<p>Available Shares</p>
 					</div>
 					{companies?.length &&
-						companies.map((company) => (
+						companies?.map((company) => (
 							<div
-								key={company?.id}
-								className="grid grid-cols-5 gap-2 items-center p-2 border-b-2 border-slate-600 last:border-none bg-gray-800 last:rounded-b-md"
+								onClick={() => handleStock(company)}
+								key={company?._id}
+								className="grid grid-cols-5 gap-2 items-center p-2 border-b-2 border-slate-600 last:border-none bg-gray-800 last:rounded-b-md cursor-pointer hover:bg-gray-600"
 							>
 								<img className="w-10 h-10 " src={company?.logo} />
 								<h1>{company?.name}</h1>

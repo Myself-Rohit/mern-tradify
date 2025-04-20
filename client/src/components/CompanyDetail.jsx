@@ -27,7 +27,7 @@ ChartJS.register(
 
 const CompanyDetails = () => {
 	const { id } = useParams();
-	const { loading, company } = useGetCompanyById(id);
+	const { loading, company } = useGetCompanyById();
 	const [price, setPrice] = useState([]);
 	const [time, setTime] = useState([]);
 	if (!company) {
